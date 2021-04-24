@@ -61,21 +61,21 @@ namespace Graph
                 n.Previous = left;
                 return n;
             }
-            else if (left.Priority <= n.Priority && n.Priority <= right.Priority)
+            else if (left != null && n.Priority < left.Priority)
+            {
+                return Insert(n, left.Previous, left);
+            }
+            else if (right != null && n.Priority > right.Priority)
+            {
+                return Insert(n, right, right.Next);
+            }
+            else
             {
                 left.Next = n;
                 n.Previous = left;
                 n.Next = right;
                 right.Previous = n;
                 return n;
-            }
-            else if (n.Priority < left.Priority)
-            {
-                return Insert(n, left.Previous, left);
-            }
-            else
-            {
-                return Insert(n, right, right.Next);
             }
         }
         public T Pop()
