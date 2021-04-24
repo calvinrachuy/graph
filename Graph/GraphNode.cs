@@ -4,23 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Graph
+namespace Dijkstra
 {
-    public class Node<T>
+    public class GraphNode<T>
     {
-        private List<Node<T>> neighbors = new List<Node<T>>();
+        private List<GraphNode<T>> neighbors = new List<GraphNode<T>>();
         private List<int> weights = new List<int>();
 
         public readonly T Value;
-        public IReadOnlyList<Node<T>> Neighbors { get { return neighbors.AsReadOnly(); } }
+        public IReadOnlyList<GraphNode<T>> Neighbors { get { return neighbors.AsReadOnly(); } }
         public IReadOnlyList<int> Weights {  get { return weights.AsReadOnly(); } }
         
-        public Node(T value)
+        public GraphNode(T value)
         {
             this.Value = value;
         }
 
-        public bool AddNeighbor(Node<T> node, int weight)
+        public bool AddNeighbor(GraphNode<T> node, int weight)
         {
             if (!neighbors.Contains(node))
             {
@@ -34,7 +34,7 @@ namespace Graph
             }
         }
 
-        public bool RemoveNeighbor(Node<T> node)
+        public bool RemoveNeighbor(GraphNode<T> node)
         {
             int i = neighbors.IndexOf(node);
             if (i == -1)

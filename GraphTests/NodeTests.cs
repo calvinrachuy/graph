@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Graph;
+using Dijkstra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Graph.Tests
+namespace Dijkstra.Tests
 {
     [TestClass()]
     public class NodeTests
@@ -15,7 +15,7 @@ namespace Graph.Tests
         public void NodeTest()
         {
             const int value = 5;
-            Node<int> n = new Node<int>(value);
+            GraphNode<int> n = new GraphNode<int>(value);
 
             Assert.AreEqual(value, n.Value);
             Assert.IsTrue(n.Neighbors.Count == 0);
@@ -26,8 +26,8 @@ namespace Graph.Tests
         public void AddNeighborTest()
         {
             const int weight = 6;
-            Node<int> n = new Node<int>(1);
-            Node<int> n2 = new Node<int>(2);
+            GraphNode<int> n = new GraphNode<int>(1);
+            GraphNode<int> n2 = new GraphNode<int>(2);
 
             Assert.IsTrue(n.AddNeighbor(n2, weight));
 
@@ -40,8 +40,8 @@ namespace Graph.Tests
         [TestMethod()]
         public void RemoveNeighborTest()
         {
-            Node<int> n = new Node<int>(1);
-            Node<int> n2 = new Node<int>(2);
+            GraphNode<int> n = new GraphNode<int>(1);
+            GraphNode<int> n2 = new GraphNode<int>(2);
             n.AddNeighbor(n2, 6);
 
             n.RemoveNeighbor(n2);
@@ -53,9 +53,9 @@ namespace Graph.Tests
         [TestMethod()]
         public void RemoveAllNeighborsTest()
         {
-            Node<int> n = new Node<int>(1);
-            Node<int> n2 = new Node<int>(2);
-            Node<int> n3 = new Node<int>(3);
+            GraphNode<int> n = new GraphNode<int>(1);
+            GraphNode<int> n2 = new GraphNode<int>(2);
+            GraphNode<int> n3 = new GraphNode<int>(3);
             n.AddNeighbor(n2, 6);
             n.AddNeighbor(n3, 7);
 
@@ -68,9 +68,9 @@ namespace Graph.Tests
         [TestMethod()]
         public void ToStringTest()
         {
-            Node<int> n = new Node<int>(1);
-            Node<int> n2 = new Node<int>(2);
-            Node<int> n3 = new Node<int>(3);
+            GraphNode<int> n = new GraphNode<int>(1);
+            GraphNode<int> n2 = new GraphNode<int>(2);
+            GraphNode<int> n3 = new GraphNode<int>(3);
             n.AddNeighbor(n2, 6);
             n.AddNeighbor(n3, 7);
 

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Graph
+namespace Dijkstra
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("Hello World!");
         }
