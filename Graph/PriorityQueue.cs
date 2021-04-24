@@ -80,13 +80,15 @@ namespace Graph
         }
         public T Pop()
         {
+            if (root == null) return default;
+
             PriorityQueueNode n = root;
             root = root.Next;
-            root.Previous = null;
+            if (root != null) root.Previous = null;
             itemToNodeMap.Remove(n.Item);
             return n.Item;
         }
-        public void Update(T item, int priority)
+        public void UpdatePriority(T item, int priority)
         {
             if (!itemToNodeMap.ContainsKey(item)) throw new KeyNotFoundException();
 
