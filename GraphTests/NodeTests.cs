@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Dijkstra;
+using Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dijkstra.Tests
+namespace Graph.Tests
 {
     [TestClass()]
     public class NodeTests

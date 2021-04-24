@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Dijkstra;
+using Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dijkstra.Tests
+namespace Graph.Tests
 {
     [TestClass()]
     public class PriorityQueueTests
@@ -25,7 +25,7 @@ namespace Dijkstra.Tests
         {
             PriorityQueue<int> q = new();
 
-            q.Push(5, 5);
+            q.Add(5, 5);
 
             Assert.AreEqual(5, q.First);
         }
@@ -36,7 +36,7 @@ namespace Dijkstra.Tests
             PriorityQueue<GraphNode<int>> q = new();
             GraphNode<int> n5 = new GraphNode<int>(5);
 
-            q.Push(n5, 5);
+            q.Add(n5, 5);
             Assert.AreEqual(n5, q.First);
         }
 
@@ -45,7 +45,7 @@ namespace Dijkstra.Tests
         {
             PriorityQueue<int> q = new();
 
-            q.Push(5, 5);
+            q.Add(5, 5);
 
             Assert.AreEqual(5, q.First);
         }
@@ -56,9 +56,9 @@ namespace Dijkstra.Tests
             PriorityQueue<GraphNode<int>> q = new();
             GraphNode<int> n5 = new GraphNode<int>(5);
             GraphNode<int> n99 = new GraphNode<int>(99);
-            q.Push(n5, 5);
+            q.Add(n5, 5);
 
-            q.Push(n99, 1);
+            q.Add(n99, 1);
 
             Assert.AreEqual(n99, q.First);
             Assert.IsTrue(q.Items.Count == 2);
@@ -70,9 +70,9 @@ namespace Dijkstra.Tests
             PriorityQueue<GraphNode<int>> q = new();
             GraphNode<int> n5 = new GraphNode<int>(5);
             GraphNode<int> n99 = new GraphNode<int>(99);
-            q.Push(n5, 5);
+            q.Add(n5, 5);
 
-            q.Push(n99, 6);
+            q.Add(n99, 6);
 
             Assert.AreEqual(n5, q.First);
             Assert.IsTrue(q.Items.Count == 2);
@@ -91,16 +91,16 @@ namespace Dijkstra.Tests
             GraphNode<int> n10 = new GraphNode<int>(10);
             GraphNode<int> n3 = new GraphNode<int>(3);
             GraphNode<int> n1 = new GraphNode<int>(1);
-            q.Push(n5, 5);
+            q.Add(n5, 5);
 
-            q.Push(n6, 6);
-            q.Push(n8, 8);
-            q.Push(n53, 53);
-            q.Push(n17, 17);
-            q.Push(n2, 2);
-            q.Push(n10, 10);
-            q.Push(n3, 3);
-            q.Push(n1, 1);
+            q.Add(n6, 6);
+            q.Add(n8, 8);
+            q.Add(n53, 53);
+            q.Add(n17, 17);
+            q.Add(n2, 2);
+            q.Add(n10, 10);
+            q.Add(n3, 3);
+            q.Add(n1, 1);
 
             List<GraphNode<int>> expected = new List<GraphNode<int>>
             {
@@ -128,8 +128,8 @@ namespace Dijkstra.Tests
             PriorityQueue<GraphNode<int>> q = new();
             GraphNode<int> n5 = new GraphNode<int>(5);
             GraphNode<int> n99 = new GraphNode<int>(99);
-            q.Push(n5, 5);
-            q.Push(n99, 1);
+            q.Add(n5, 5);
+            q.Add(n99, 1);
 
             q.Update(n99, 4);
 
@@ -142,27 +142,12 @@ namespace Dijkstra.Tests
             PriorityQueue<GraphNode<int>> q = new();
             GraphNode<int> n5 = new GraphNode<int>(5);
             GraphNode<int> n99 = new GraphNode<int>(99);
-            q.Push(n5, 5);
-            q.Push(n99, 1);
+            q.Add(n5, 5);
+            q.Add(n99, 1);
 
             q.Update(n99, 5);
 
             Assert.AreEqual(n99, q.First);
-        }
-
-        [TestMethod()]
-        public void UpdateItemMovesRight()
-        {
-            PriorityQueue<GraphNode<int>> q = new();
-            GraphNode<int> n5 = new GraphNode<int>(5);
-            GraphNode<int> n99 = new GraphNode<int>(99);
-            q.Push(n5, 5);
-            q.Push(n99, 1);
-
-            q.Update(n99, 6);
-
-            Assert.AreEqual(n5, q.First);
-            Assert.AreEqual(n99, q.Items[1]);
         }
     }
 }

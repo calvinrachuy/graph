@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dijkstra
+namespace Graph
 {
     public class GraphNode<T>
     {

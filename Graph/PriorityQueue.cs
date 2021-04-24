@@ -4,96 +4,83 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dijkstra
+namespace Graph
 {
     public class PriorityQueue<T>
     {
-        private Dictionary<T, SortedListNode> itemToNodeMap = new();
-        // TODO replace with SortedList or MinHeap
-        private SortedListNode root;
+        private Dictionary<T, PriorityQueueNode> itemToNodeMap = new();
+        private PriorityQueueNode root;
         public T First { get { return root != null ? root.Item : default; } }
 
-        class SortedListNode
+        public class PriorityQueueNode
         {
-            public T Item;
             public int Priority;
-            public SortedListNode Previous;
-            public SortedListNode Next;
-            public SortedListNode(T item, int priority)
+            public T Item;
+            public PriorityQueueNode Previous;
+            public PriorityQueueNode Next;
+            public PriorityQueueNode(T item, int priority)
             {
                 this.Item = item;
                 this.Priority = priority;
             }
         }
-
-        void InsertRight(SortedListNode n, SortedListNode previous, SortedListNode next)
+        public PriorityQueueNode Add(T item, int priority)
         {
-            if (n == null) return;
-
-            if (next == null)
-            {
-                n.Previous = previous;
-                n.Next = null;
-                previous.Next = n;
-            }
-            else if (n.Priority < next.Priority)
-            {
-                n.Next = next;
-                n.Previous = previous;
-                previous.Next = n;
-                next.Previous = n;
-            }
-            else
-            {
-                InsertRight(n, next, next.Next);
-            }
-        }
-        void InsertLeft(SortedListNode n, SortedListNode previous, SortedListNode next)
-        {
-            if (n == null) return;
-
-            if (previous == null)
-            {
-                n.Next = next;
-                n.Previous = null;
-                next.Previous = n;
-                root = n;
-            }
-            else if (n.Priority >= previous.Priority)
-            {
-                n.Next = next;
-                n.Previous = previous;
-                previous.Next = n;
-                next.Previous = n;
-            }
-            else
-            {
-                InsertLeft(n, previous.Previous, previous);
-            }
-        }
-        public void Push(T item, int priority)
-        {
-            SortedListNode n = new(item, priority);
+            PriorityQueueNode n = new(item, priority);
             itemToNodeMap.Add(item, n);
 
             if (root == null)
             {
                 root = n;
-            }
-            else if (priority < root.Priority)
-            {
-                root.Previous = n;
-                n.Next = root;
-                root = n;
+                return n;
             }
             else
             {
-                InsertRight(n, root, root.Next);
+                return Insert(n, root, root.Next);
+            }
+        }
+        public PriorityQueueNode Insert(PriorityQueueNode n, PriorityQueueNode left, PriorityQueueNode right)
+        {
+            if (n == null) return null;
+
+            if (left == null && right == null)
+            {
+                root = n;
+                return n;
+            }
+            else if (left == null && n.Priority <= right.Priority)
+            {
+                right.Previous = n;
+                n.Next = right;
+                root = n;
+                return n;
+            }
+            else if (right == null && n.Priority >= left.Priority)
+            {
+                left.Next = n;
+                n.Previous = left;
+                return n;
+            }
+            else if (left.Priority <= n.Priority && n.Priority <= right.Priority)
+            {
+                left.Next = n;
+                n.Previous = left;
+                n.Next = right;
+                right.Previous = n;
+                return n;
+            }
+            else if (n.Priority < left.Priority)
+            {
+                return Insert(n, left.Previous, left);
+            }
+            else
+            {
+                return Insert(n, right, right.Next);
             }
         }
         public T Pop()
         {
-            SortedListNode n = root;
+            PriorityQueueNode n = root;
             root = root.Next;
             root.Previous = null;
             itemToNodeMap.Remove(n.Item);
@@ -103,20 +90,18 @@ namespace Dijkstra
         {
             if (!itemToNodeMap.ContainsKey(item)) throw new KeyNotFoundException();
 
-            SortedListNode n = itemToNodeMap[item];
+            PriorityQueueNode n = itemToNodeMap[item];
             n.Priority = priority;
-            SortedListNode previous = n.Previous;
-            SortedListNode next = n.Next;
+            PriorityQueueNode previous = n.Previous;
+            PriorityQueueNode next = n.Next;
 
-            if ((previous == null || previous.Priority <= priority) && (next == null || priority <= next.Priority)) return;
-
+            if (previous != null) previous.Next = next;
+            if (next != null) next.Previous = previous;
             n.Next = null;
             n.Previous = null;
-            if (next != null) next.Previous = previous;
-            if (previous != null) previous.Next = next;
+            if (root == n) root = next;
 
-            InsertLeft(n, previous, next);
-            InsertRight(n, previous, next);
+            Insert(n, previous, next);
         }
         public int GetPriority(T item)
         {
@@ -135,7 +120,7 @@ namespace Dijkstra
             get
             {
                 List<T> items = new();
-                SortedListNode current = root;
+                PriorityQueueNode current = root;
                 while (current != null)
                 {
                     items.Add(current.Item);

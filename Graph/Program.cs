@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dijkstra
+namespace Graph
 {
     class Program
     {
