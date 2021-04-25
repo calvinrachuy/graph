@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Graph
+namespace GraphNS
 {
     public class PriorityQueue<T>
     {
@@ -116,7 +116,6 @@ namespace Graph
                 throw new KeyNotFoundException();
             }
         }
-
         public IReadOnlyList<T> Items
         {
             get
@@ -131,5 +130,7 @@ namespace Graph
                 return items.AsReadOnly();
             }
         }
+        public int Count { get { return Items.Count; } }
+        public bool IsEmpty { get { return Items.Count == 0; } }
     }
 }

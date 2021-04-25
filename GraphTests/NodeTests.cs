@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Graph;
+using GraphNS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Graph.Tests
+namespace GraphNS.Tests
 {
     [TestClass()]
     public class NodeTests
@@ -48,6 +48,28 @@ namespace Graph.Tests
 
             Assert.IsTrue(n.Neighbors.Count == 0);
             Assert.IsTrue(n.Weights.Count == 0);
+        }
+
+        [TestMethod()]
+        public void AddAndRemoveNeighbors()
+        {
+            GraphNode<int> n = new GraphNode<int>(1);
+            GraphNode<int> n2 = new GraphNode<int>(2);
+            GraphNode<int> n3 = new GraphNode<int>(3);
+            n.AddNeighbor(n2, 6);
+            n.AddNeighbor(n3, 3);
+
+            Assert.AreEqual(2, n.Neighbors.Count);
+            Assert.AreEqual(2, n.Neighbors.Count);
+            Assert.AreEqual(6, n.Weights[0]);
+            Assert.AreEqual(3, n.Weights[1]);
+
+            n.RemoveNeighbor(n2);
+
+            Assert.AreEqual(1, n.Neighbors.Count);
+            Assert.AreEqual(1, n.Weights.Count);
+            Assert.AreEqual(n3, n.Neighbors[0]);
+            Assert.AreEqual(3, n.Weights[0]);
         }
 
         [TestMethod()]

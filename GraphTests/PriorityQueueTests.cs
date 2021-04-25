@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Graph;
+using GraphNS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Graph.Tests
+namespace GraphNS.Tests
 {
     [TestClass()]
     public class PriorityQueueTests
