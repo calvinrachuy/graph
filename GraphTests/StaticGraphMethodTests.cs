@@ -11,17 +11,13 @@ namespace GraphNS.Tests
     [TestClass()]
     public class StaticGraphMethodTests<T>
     {
-        public LinkedList<GraphNode<int>> FindPath(GraphNode<int> start, GraphNode<int> end)
-        {
-            return Graph<int>.FindPath(start, end);
-        }
         [TestMethod()]
         public void FindShortestPathNull()
         {
             GraphNode<int> start = null;
             GraphNode<int> end = new GraphNode<int>(12);
 
-            var result = FindPath(start, end);
+            var result = Graph<int>.FindPath(start, end);
 
             Assert.IsNull(result);
         }
@@ -33,7 +29,7 @@ namespace GraphNS.Tests
             LinkedList<GraphNode<int>> expected = new();
             expected.AddFirst(start);
 
-            var result = FindPath(start, start);
+            var result = Graph<int>.FindPath(start, start);
 
             Assert.AreEqual(expected, result);
         }
