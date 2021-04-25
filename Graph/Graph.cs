@@ -10,9 +10,9 @@ namespace GraphNS
     {
         // TODO implement this BFS style, without the Queue at all
         // remember to compare distance
-        public static LinkedList<GraphNode<T>> FindPath(GraphNode<T> start, GraphNode<T> end)
+        public static (LinkedList<GraphNode<T>> path, int distance) FindPath(GraphNode<T> start, GraphNode<T> end)
         {
-            if (start == null || end == null) return null;
+            if (start == null || end == null) return (null, int.MinValue);
 
             Dictionary<GraphNode<T>, GraphNode<T>> pathMap = new();
             // TODO dict default value?
@@ -40,11 +40,21 @@ namespace GraphNS
                     }
                 }
             }
-
-            return BuildPath(start, end, pathMap);
+            LinkedList<GraphNode<T>> path = BuildPath(start, end, pathMap);
+            if (path == null)
+            {
+                return (null, int.MinValue);
+            }
+            else
+            {
+                return (path, distanceMap[end]);   
+            }
         }
         public static LinkedList<GraphNode<T>> BuildPath(GraphNode<T> start, GraphNode<T> end, Dictionary<GraphNode<T>, GraphNode<T>> pathMap)
         {
+            if (start == null || end == null) return null;
+            if (!(pathMap.ContainsKey(end) && pathMap.ContainsKey(start))) return null;
+
             LinkedList<GraphNode<T>> path = new();
             GraphNode<T> current = end;
             while(current != null)
@@ -53,8 +63,22 @@ namespace GraphNS
                 current = pathMap[current];
             }
 
-            // TODO handle incomplete path (you can't get from start to end)
+            if (!(path.First.Value == start && path.Last.Value == end))
+                return null;
+
             return path;
+        }
+
+        public static string PathToString(LinkedList<GraphNode<T>> path, int distance)
+        {
+            if (path == null) return null;
+            string str = "";
+            foreach (var n in path)
+            {
+                str += n.Value.ToString() + ", ";
+            } 
+
+            return str + ":" + distance;
         }
     }
 }
